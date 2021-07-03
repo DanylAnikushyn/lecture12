@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "hash_table_1.hpp"
 
-TEST(hash_table, add)
+TEST(hash_table, hash_table)
 {
     auto ht = HashTable_1(10);
 
@@ -48,6 +48,23 @@ TEST(hash_table, add)
     ht.add("Lila Larson", "+1 (229) 504-2320", "6202 Alexys Rue West Golden, MS");
     GTEST_ASSERT_EQ(ht.get_phone(std::string{"Lila Larson"}), std::string{"+1 (229) 504-2320"});
     GTEST_ASSERT_EQ(ht.get_address(std::string{"Lila Larson"}), std::string{"6202 Alexys Rue West Golden, MS"});
+
+    ht.remove("Lila Larson");
+    GTEST_ASSERT_EQ(ht.get_phone(std::string{"Lila Larson"}), std::string{""});
+
+    ht.remove("Johan Webster");
+    GTEST_ASSERT_EQ(ht.get_phone(std::string{"Johan Webster"}), std::string{""});
+
+    ht.remove("Reagan Hamilton");
+    GTEST_ASSERT_EQ(ht.get_phone(std::string{"Reagan Hamilton"}), std::string{""});
+
+    ht.remove("Johan Webster");
+    GTEST_ASSERT_EQ(ht.get_phone(std::string{"Johan Webster"}), std::string{""});
+
+    ht.remove("Lila Lars");
+    GTEST_ASSERT_EQ(ht.get_phone(std::string{"Lila Larson"}), std::string{""});
+
+    GTEST_ASSERT_EQ(ht.get_phone(std::string{"Lila Lars"}), std::string{""});
 }
 
 int main(int argc, char* argv[])

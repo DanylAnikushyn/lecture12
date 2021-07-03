@@ -12,6 +12,7 @@ public:
     void remove(const std::string& name);
     std::string get_phone(const std::string& name) const;
     std::string get_address(const std::string& name) const;
+    ~HashTable_1();
 private:
     Entry* get_entry(const std::string& name) const;
 
