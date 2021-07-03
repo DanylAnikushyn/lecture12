@@ -14,6 +14,22 @@ unsigned long hash(const char* str)
     return hash;
 }
 
+Entry* HashTable_1::get_entry(const std::string& name) const
+{
+    Entry* temp = m_array[hash(name.c_str()) % m_size].entry;
+    std::cout << temp << std::endl;
+    std::cout << hash(name.c_str()) % m_size << std::endl;
+    std::cout << "before while" << std::endl;
+    while (temp != nullptr) 
+    {
+        std::cout << "in while before if" << std::endl;
+        if (temp->m_name == name) break;
+        std::cout << "in while after if" << std::endl;
+        temp = temp->m_next;
+    }
+    return temp;
+}
+
 HashTable_1::HashTable_1(std::size_t size) : m_size(size)
 {
     m_array = new Bucket[m_size];
@@ -40,20 +56,9 @@ void HashTable_1::remove(const std::string& name)
 }
 std::string HashTable_1::get_phone(const std::string& name) const
 {
-    Entry* temp = m_array[hash(name.c_str()) % m_size].entry;
-    std::cout << temp << std::endl;
-    std::cout << hash(name.c_str()) % m_size << std::endl;
-    std::cout << "before while" << std::endl;
-    while (temp != nullptr) 
-    {
-        std::cout << "in while before if" << std::endl;
-        if (temp->m_name == name) break;
-        std::cout << "in while after if" << std::endl;
-        temp = temp->m_next;
-    }
-    return temp->m_phone;
+    return get_entry(name)->m_phone;
 }
 std::string HashTable_1::get_address(const std::string& name) const
 {
-    return "";
+    return get_entry(name)->m_address;
 }

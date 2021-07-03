@@ -13,6 +13,8 @@ public:
     std::string get_phone(const std::string& name) const;
     std::string get_address(const std::string& name) const;
 private:
+    Entry* get_entry(const std::string& name) const;
+
     Bucket* m_array;
     std::size_t m_size;
 };
