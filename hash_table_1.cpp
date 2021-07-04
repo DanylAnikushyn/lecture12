@@ -86,6 +86,23 @@ std::string HashTable_1::get_address(const std::string& name) const
     if (auto temp = get_entry(name)) return temp->m_address;
     return "";
 }
+// get_name - unfortunately, complexity is O(n)
+std::string HashTable_1::get_name(const std::string& phone) const
+{
+    for (int i = 0; i < m_size; ++i) 
+    {
+        Entry* temp = m_array[i].entry;
+        while (temp != nullptr)
+        {
+            if (temp->m_phone == phone) 
+            {
+                return temp->m_name;
+            }
+            temp = temp->m_next;
+        }
+    }
+    return "";
+}
 
 void HashTable_1::remove_entry(Entry* entry)
 {
@@ -107,11 +124,11 @@ void HashTable_1::remove_bucket(Bucket bucket)
 
 HashTable_1::~HashTable_1()
 {
-//    for(int i = 0; i < m_size; ++i) 
-//    {
-//        remove_bucket(m_array[i]);
-//    }
-//    delete[] m_array;
+    for(int i = 0; i < m_size; ++i) 
+    {
+        remove_bucket(m_array[i]);
+    }
+    delete[] m_array;
 }
 
 

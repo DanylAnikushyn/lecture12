@@ -49,6 +49,13 @@ TEST(hash_table, hash_table)
     GTEST_ASSERT_EQ(ht.get_phone(std::string{"Lila Larson"}), std::string{"+1 (229) 504-2320"});
     GTEST_ASSERT_EQ(ht.get_address(std::string{"Lila Larson"}), std::string{"6202 Alexys Rue West Golden, MS"});
 
+    // testing get_name
+    GTEST_ASSERT_EQ(ht.get_name(std::string{"+1-550-758-4054"}), std::string{"Johan Webster"});
+    GTEST_ASSERT_EQ(ht.get_name(std::string{"+1 (229) 504-2320"}), std::string{"Lila Larson"});
+    GTEST_ASSERT_EQ(ht.get_name(std::string{"+1-831-642-6710"}), std::string{"Reagan Hamilton"});
+    GTEST_ASSERT_EQ(ht.get_name(std::string{"+1-756-997-5823"}), std::string{"Kennedy Peterson"});
+    GTEST_ASSERT_EQ(ht.get_name(std::string{"+1 (970) 782-3691"}), std::string{"Haisley Patel"});
+
     ht.remove("Lila Larson");
     GTEST_ASSERT_EQ(ht.get_phone(std::string{"Lila Larson"}), std::string{""});
     std::cout << "Johan Webster" << std::endl;
