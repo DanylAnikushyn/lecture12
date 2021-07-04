@@ -48,29 +48,34 @@ void HashTable_1::add(const std::string& name, const std::string& phone, const s
 }
 void HashTable_1::remove(const std::string& name)
 {
-    Entry* current = m_array[hash(name.c_str()) % m_size].entry;
-    Entry* previous = nullptr;
-    while (current != nullptr) 
+    Entry* temp = m_array[hash(name.c_str()) % m_size].entry;
+    if (temp != nullptr)
     {
-        previous = current;
-        if (current->m_name == name) 
+        if (temp->m_name == name)
         {
-            if (previous != nullptr)
-            {
-                delete previous;
-                previous = current;;
-            }
-            else 
-            {
-                Entry* temp = m_array[hash(name.c_str()) % m_size].entry->m_next;
-                delete m_array[hash(name.c_str()) % m_size].entry;
-                m_array[hash(name.c_str()) % m_size].entry = temp;
-            }
+            delete m_array[hash(name.c_str()) % m_size].entry;
+            m_array[hash(name.c_str()) % m_size].entry = nullptr;
+            return;
         }
-        current = current->m_next;
     }
-    
+    else 
+    {
+        return;
+    }
+    Entry* prev = temp;
+    temp = temp->m_next;
+    while (temp != nullptr) 
+    {
+        if (temp->m_name == name)
+        {
+            prev->m_next = temp->m_next;
+            delete temp;
+            return;
+        }
+        temp = temp->m_next;
+    }
 }
+
 std::string HashTable_1::get_phone(const std::string& name) const
 {
     if (auto temp = get_entry(name)) return temp->m_phone;
@@ -82,7 +87,31 @@ std::string HashTable_1::get_address(const std::string& name) const
     return "";
 }
 
+void HashTable_1::remove_entry(Entry* entry)
+{
+    if (entry->m_next != nullptr)
+    {
+        remove_entry(entry->m_next);
+        delete entry->m_next;
+    }
+}
+
+void HashTable_1::remove_bucket(Bucket bucket) 
+{
+    if (bucket.entry != nullptr)
+    {
+        remove_entry(bucket.entry);
+        delete bucket.entry;
+    }
+}
+
 HashTable_1::~HashTable_1()
 {
-    
+//    for(int i = 0; i < m_size; ++i) 
+//    {
+//        remove_bucket(m_array[i]);
+//    }
+//    delete[] m_array;
 }
+
+

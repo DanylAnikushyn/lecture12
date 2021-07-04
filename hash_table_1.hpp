@@ -15,6 +15,8 @@ public:
     ~HashTable_1();
 private:
     Entry* get_entry(const std::string& name) const;
+    void remove_bucket(Bucket bucket);
+    void remove_entry(Entry* entry);
 
     Bucket* m_array;
     std::size_t m_size;
