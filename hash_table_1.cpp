@@ -48,32 +48,24 @@ void HashTable_1::add(const std::string& name, const std::string& phone, const s
 }
 void HashTable_1::remove(const std::string& name)
 {
-    Entry* temp = m_array[hash(name.c_str()) % m_size].entry;
-    if (temp != nullptr)
+    Entry* prev = nullptr;
+    Entry* head = m_array[hash(name.c_str()) % m_size].entry;
+    Entry* temp = head;
+    if (temp != nullptr && temp->m_name == name)
     {
-        if (temp->m_name == name)
-        {
-            delete m_array[hash(name.c_str()) % m_size].entry;
-            m_array[hash(name.c_str()) % m_size].entry = nullptr;
-            return;
-        }
-    }
-    else 
-    {
+        m_array[hash(name.c_str()) % m_size].entry = temp->m_next;
+        delete temp;
         return;
     }
-    Entry* prev = temp;
-    temp = temp->m_next;
-    while (temp != nullptr) 
+    while (temp != nullptr && temp->m_name != name)
     {
-        if (temp->m_name == name)
-        {
-            prev->m_next = temp->m_next;
-            delete temp;
-            return;
-        }
+        prev = temp;
         temp = temp->m_next;
     }
+    if (temp == nullptr)
+        return;
+    prev->m_next = temp->m_next;
+    delete temp;
 }
 
 std::string HashTable_1::get_phone(const std::string& name) const
